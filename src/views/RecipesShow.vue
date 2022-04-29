@@ -4,7 +4,7 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      message: "Welcome to the Recipes Show",
+      message: "Recipe Details",
       recipe: {}
     };
   },
@@ -37,6 +37,10 @@ export default {
       <ol>
         <li v-for="step in recipe.steps">{{ step.description }}</li>
       </ol>
+      <p>
+        <router-link class="btn btn-primary" to="/recipes">Back to Recipes</router-link>
+      </p>
+      <p><a href="https://www.wine-searcher.com/food-wine" target="_blank">Information on Wine Pairings</a></p>
     </div>
   </div>
 </template>
