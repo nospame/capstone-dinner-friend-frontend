@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <div class="home">
+  <div class="recipes-show">
     <h1>{{ message }}</h1>
     <div>
       <h2>{{ recipe.name }}</h2>
