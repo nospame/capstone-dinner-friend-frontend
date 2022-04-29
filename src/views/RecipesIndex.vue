@@ -25,6 +25,9 @@ export default {
           this.recipes = response.data
         })
       this.searchTerm = ''
+    },
+    showRecipe: function (id) {
+      this.$router.push(`/recipes/${id}`)
     }
   },
 };
@@ -34,11 +37,12 @@ export default {
   <div class="home">
     <h1>{{ message }}</h1>
     <form v-on:submit.prevent="searchRecipes()"> <input type="text" v-model="searchTerm"> <input type="submit"
-        label="search">
+        value="Search">
     </form>
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
+      <button v-on:click="showRecipe(recipe.id)">Recipe Details</button>
       <hr />
     </div>
   </div>
