@@ -5,7 +5,8 @@ export default {
   data: function () {
     return {
       message: "Welcome to the Recipes Index Page",
-      recipes: []
+      recipes: [],
+      searchTerm: ''
     };
   },
   created: function () {
@@ -13,12 +14,17 @@ export default {
   },
   methods: {
     indexRecipes: function () {
-      console.log('in the index function')
       axios.get('/recipes.json')
         .then(response => {
           this.recipes = response.data
-          console.log(response.data)
         })
+    },
+    searchRecipes: function () {
+      axios.get(`/recipes.json?query=${this.searchTerm}`)
+        .then(response => {
+          this.recipes = response.data
+        })
+      this.searchTerm = ''
     }
   },
 };
@@ -27,6 +33,9 @@ export default {
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <form v-on:submit.prevent="searchRecipes()"> <input type="text" v-model="searchTerm"> <input type="submit"
+        label="search">
+    </form>
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
