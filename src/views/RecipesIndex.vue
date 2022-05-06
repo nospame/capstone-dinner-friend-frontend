@@ -1,19 +1,34 @@
 <script>
-import axios from "axios";
+import axios from "axios"
+import Multiselect from '@vueform/multiselect'
 
 export default {
+  components: { Multiselect },
+
+  created: function () {
+    // this.getRecipes()
+    this.getTags()
+  },
+
   data: function () {
     return {
       message: "Dinner Party's Friend",
+      tags: [],
       recipes: [],
       searchTerm: '',
-      offset: 0
+      offset: 0,
+      value: null,
+      options: ['list', 'of', 'options']
     };
   },
-  created: function () {
-    this.getRecipes()
-  },
+
   methods: {
+    getTags: function () {
+      axios.get('/tags.json')
+        .then(response => {
+          this.tags = response.data
+        })
+    },
     newSearch: function () {
       this.offset = 0
       this.getRecipes()
@@ -43,6 +58,9 @@ export default {
 
 <template>
   <div class="recipes-index">
+    <div>
+      <multiselect v-model="value" :options="options"></multiselect>
+    </div>
     <h1>{{ message }}</h1>
     <p>Search for an ingredient or keyword</p>
     <form v-on:submit.prevent="newSearch()">
@@ -59,6 +77,8 @@ export default {
     <button class="btn btn-secondary" v-if="recipes.length === 20" v-on:click="nextPage()">Next Page</button>
   </div>
 </template>
+
+
 
 <style>
 </style>

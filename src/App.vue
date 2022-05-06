@@ -1,5 +1,6 @@
 <script>
 import bootstrap from 'bootstrap'
+
 export default {
   data: function () {
     return {}
@@ -30,6 +31,7 @@ export default {
     <router-view />
   </div>
 </template>
+
 
 <style>
 </style>
