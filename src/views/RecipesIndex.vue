@@ -13,6 +13,7 @@ export default {
   data: function () {
     return {
       message: "Dinner Party's Friend",
+      notify: '',
       tags: [],
       recipes: [],
       searchTerm: '',
@@ -35,13 +36,15 @@ export default {
       this.getRecipes()
     },
     getRecipes: function () {
-      let url = `/recipes.json?query=${this.searchTerm}&offset=${this.offset}`
+      this.notify = "Searching..."
+      let url = `/recipes.json?q=${this.searchTerm}&offset=${this.offset}`
       if (!!this.value) {
-        url = `${url}&tags=${this.value.toString()}`
+        url = `${url}&tags=${this.value}`
       }
       axios.get(url)
         .then(response => {
           this.recipes = response.data
+          this.notify = response.data.length > 0 ? '' : "No results found. Try using fewer tags or a different search term."
         })
     },
     showRecipe: function (id) {
@@ -65,13 +68,14 @@ export default {
   <div class="recipes-index">
     <h1>{{ message }}</h1>
     <p>Search for an ingredient or keyword</p>
-    <Multiselect v-model="value" placeholder="Tag Selection" :options="tags" valueProp="id" label="name" mode="tags"
-      :searchable="true">
-    </Multiselect>
     <form v-on:submit.prevent="newSearch()">
-      <input type="text" v-model="searchTerm">
+      <input placeholder="Search" type="text" v-model="searchTerm">
       <input class="btn btn-primary" type="submit" value="Search">
     </form>
+    <Multiselect v-model="value" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
+      :searchable="true" v-on:select="newSearch()">
+    </Multiselect>
+    <p>{{ notify }}</p>
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
