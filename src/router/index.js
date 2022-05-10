@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import FavoriteRecipes from '../views/FavoriteRecipes.vue'
 import RecipesIndex from '../views/RecipesIndex.vue'
 import RecipesShow from '../views/RecipesShow.vue'
 import UsersNew from '../views/UsersNew.vue'
@@ -22,6 +23,11 @@ const routes = [
     component: RecipesShow
   },
   {
+    path: '/favorites',
+    name: 'favorite-recipes',
+    component: FavoriteRecipes
+  },
+  {
     path: '/users/new',
     name: 'users-new',
     component: UsersNew
@@ -36,6 +42,7 @@ const routes = [
     name: 'user-logout',
     component: UserLogout
   },
+
   {
     path: '/about',
     name: 'about',

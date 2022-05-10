@@ -25,6 +25,12 @@ export default {
       navigator.clipboard.writeText(copyText)
       this.notify = 'URL copied to clipboard'
       setTimeout(() => { this.notify = '' }, 5000)
+    },
+    favoriteRecipe: function () {
+      axios.post('/favorite_recipes.json', { "recipe_id": this.recipe.id })
+        .then(
+          this.notify = 'Recipe added to favorites'
+        )
     }
   },
 };
@@ -36,6 +42,7 @@ export default {
     <div>
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
+      <button class="btn btn-primary btn-sm" v-on:click="favoriteRecipe()">Favorite</button>
       <h3>Ingredients</h3>
       <ul>
         <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>
@@ -44,14 +51,13 @@ export default {
       <ol>
         <li v-for="step in recipe.steps">{{ step.description }}</li>
       </ol>
-
       <p>
         {{ notify }}</p>
       <div>
         <button class="btn btn-secondary" v-on:click="shareRecipe()">Share Recipe</button>
         <router-link class="btn btn-primary" to="/recipes">Back to Recipes</router-link>
       </div>
-      <p><a href="https://www.wine-searcher.com/food-wine" target="_blank">Information on Wine Pairings</a></p>
+      <!-- <p><a href="https://www.wine-searcher.com/food-wine" target="_blank">Information on Wine Pairings</a></p> -->
     </div>
   </div>
 </template>

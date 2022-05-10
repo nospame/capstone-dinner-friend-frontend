@@ -3,7 +3,14 @@ import bootstrap from 'bootstrap'
 
 export default {
   data: function () {
-    return {}
+    return {
+      isLoggedIn: false
+    }
+  },
+  watch: {
+    $route: function () {
+      this.isLoggedIn = !!localStorage.jwt;
+    }
   }
 }
 </script>
@@ -18,15 +25,18 @@ export default {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" to="/recipes">Home</router-link>
+            <router-link class="nav-link active" aria-current="page" to="/recipes">All Recipes</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
+            <router-link class="nav-link" to="/favorites">Favorites</router-link>
+          </li>
+          <li v-if="!isLoggedIn" class="nav-item">
             <router-link class="nav-link" to="/users/new">Sign Up</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!isLoggedIn" class="nav-item">
             <router-link class="nav-link" to="/login">Log In</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link class="nav-link" to="/logout">Log Out</router-link>
           </li>
           <li class="nav-item">
@@ -36,6 +46,7 @@ export default {
       </div>
     </div>
   </nav>
+  {{ }}
   <div class="container">
     <router-view />
   </div>
