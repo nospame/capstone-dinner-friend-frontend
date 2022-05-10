@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import RecipesIndex from '../views/RecipesIndex.vue'
 import RecipesShow from '../views/RecipesShow.vue'
+import UsersNew from '../views/UsersNew.vue'
+import UserLogin from '../views/UserLogin.vue'
+import UserLogout from '../views/UserLogout.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: RecipesIndex
   },
   {
     path: '/recipes',
@@ -18,6 +20,21 @@ const routes = [
     path: '/recipes/:id',
     name: 'recipes-show',
     component: RecipesShow
+  },
+  {
+    path: '/users/new',
+    name: 'users-new',
+    component: UsersNew
+  },
+  {
+    path: '/login',
+    name: 'user-login',
+    component: UserLogin
+  },
+  {
+    path: '/logout',
+    name: 'user-logout',
+    component: UserLogout
   },
   {
     path: '/about',

@@ -21,6 +21,15 @@ export default {
             <router-link class="nav-link active" aria-current="page" to="/recipes">Home</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/users/new">Sign Up</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/login">Log In</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/logout">Log Out</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
         </ul>
