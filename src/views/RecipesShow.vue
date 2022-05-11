@@ -39,7 +39,15 @@ export default {
       axios.delete(`/favorite_recipes/${this.recipe.id}.json`)
         .then(
           this.notify = 'Recipe removed from favorites',
-          this.recipe.favorited = false
+          this.recipe.favorited = false,
+          this.recipe.has_made = false
+        )
+    },
+    markCooked: function () {
+      axios.patch(`/favorite_recipes/${this.recipe.id}.json`, { "has_made": true })
+        .then(
+          this.notify = 'Recipe marked as cooked.',
+          this.recipe.has_made = true
         )
     }
   }
@@ -52,11 +60,13 @@ export default {
     <div>
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
-      <button class="btn btn-primary btn-sm" v-if="user.loggedIn && !recipe.favorited"
-        v-on:click="favoriteRecipe()">Favorite</button>
-      <button class="btn btn-primary btn-sm" v-if="user.loggedIn && !!recipe.favorited"
+      <button class="btn btn-primary btn-sm" v-if="!recipe.favorited" v-on:click="favoriteRecipe()">Favorite</button>
+      <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited"
         v-on:click="unfavoriteRecipe()">Unfavorite</button>
-
+      <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited && !recipe.has_made"
+        v-on:click="markCooked()">Cook recipe!</button>
+      <button class="btn btn-success btn-sm disabled" v-if="!!recipe.favorited && !!recipe.has_made">Recipe
+        cooked!</button>
       <h3>Ingredients</h3>
       <ul>
         <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>
