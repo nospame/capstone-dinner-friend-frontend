@@ -60,7 +60,8 @@ export default {
     <div>
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
-      <button class="btn btn-primary btn-sm" v-if="!recipe.favorited" v-on:click="favoriteRecipe()">Favorite</button>
+      <button class="btn btn-primary btn-sm" v-if="recipe.favorited == false"
+        v-on:click="favoriteRecipe()">Favorite</button>
       <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited"
         v-on:click="unfavoriteRecipe()">Unfavorite</button>
       <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited && !recipe.has_made"
