@@ -11,4 +11,5 @@ if (jwt) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 }
 
+
 createApp(App).use(router).mount('#app')

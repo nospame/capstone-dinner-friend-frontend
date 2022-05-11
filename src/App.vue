@@ -1,15 +1,16 @@
 <script>
-import bootstrap from 'bootstrap'
+import { user } from './user.js'
+
 
 export default {
   data: function () {
     return {
-      isLoggedIn: false
+      user
     }
   },
   watch: {
     $route: function () {
-      this.isLoggedIn = !!localStorage.jwt;
+      user.loggedIn = !!localStorage.jwt;
     }
   }
 }
@@ -27,16 +28,16 @@ export default {
           <li class="nav-item">
             <router-link class="nav-link active" aria-current="page" to="/recipes">All Recipes</router-link>
           </li>
-          <li v-if="isLoggedIn" class="nav-item">
+          <li v-if="user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/favorites">Favorites</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
+          <li v-if="!user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/users/new">Sign Up</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
+          <li v-if="!user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/login">Log In</router-link>
           </li>
-          <li v-if="isLoggedIn" class="nav-item">
+          <li v-if="user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/logout">Log Out</router-link>
           </li>
           <li class="nav-item">
@@ -46,7 +47,6 @@ export default {
       </div>
     </div>
   </nav>
-  {{ }}
   <div class="container">
     <router-view />
   </div>

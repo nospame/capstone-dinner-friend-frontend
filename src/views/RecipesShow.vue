@@ -1,12 +1,14 @@
 <script>
 import axios from "axios";
+import { user } from '../user.js'
 
 export default {
   data: function () {
     return {
       message: "Recipe Details",
       recipe: {},
-      notify: ''
+      notify: '',
+      user
     };
   },
   created: function () {
@@ -29,10 +31,18 @@ export default {
     favoriteRecipe: function () {
       axios.post('/favorite_recipes.json', { "recipe_id": this.recipe.id })
         .then(
-          this.notify = 'Recipe added to favorites'
+          this.notify = 'Recipe added to favorites',
+          this.recipe.favorited = true
+        )
+    },
+    unfavoriteRecipe: function () {
+      axios.delete(`/favorite_recipes/${this.recipe.id}.json`)
+        .then(
+          this.notify = 'Recipe removed from favorites',
+          this.recipe.favorited = false
         )
     }
-  },
+  }
 };
 </script>
 
@@ -42,7 +52,11 @@ export default {
     <div>
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
-      <button class="btn btn-primary btn-sm" v-on:click="favoriteRecipe()">Favorite</button>
+      <button class="btn btn-primary btn-sm" v-if="user.loggedIn && !recipe.favorited"
+        v-on:click="favoriteRecipe()">Favorite</button>
+      <button class="btn btn-primary btn-sm" v-if="user.loggedIn && !!recipe.favorited"
+        v-on:click="unfavoriteRecipe()">Unfavorite</button>
+
       <h3>Ingredients</h3>
       <ul>
         <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>

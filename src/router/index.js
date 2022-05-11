@@ -9,8 +9,9 @@ import UserLogout from '../views/UserLogout.vue'
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: RecipesIndex
+    redirect: {
+      name: 'recipes-index'
+    }
   },
   {
     path: '/recipes',
