@@ -6,7 +6,9 @@ export default {
     return {
       message: "Welcome to the Favorites Page",
       favorites: [],
-      sort: ''
+      sort: '',
+      filter: '',
+      selectFavorites: this.favorites
     };
   },
   created: function () {
@@ -18,13 +20,18 @@ export default {
         .then(response => {
           console.log(response.data)
           this.favorites = response.data
+          this.selectFavorites = this.favorites
         })
     },
     showRecipe: function (id) {
       this.$router.push(`/recipes/${id}`)
     },
+    selectFavoriteRecipes: function (sort, filter) {
+      this.sortFavoriteRecipes(sort);
+      this.filterFavoriteRecipes(filter);
+    },
     sortFavoriteRecipes: function (sort) {
-      this.favorites = this.favorites.sort((a, b) => {
+      this.selectFavorites = this.favorites.sort((a, b) => {
         if (sort === 'old' || sort === 'new') {
           let da = new Date(a.created_at),
             db = new Date(b.created_at);
@@ -56,6 +63,14 @@ export default {
           }
         }
       })
+    },
+    filterFavoriteRecipes: function (filter) {
+      if (filter === 'true') {
+        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === true)
+      }
+      else if (filter === 'false') {
+        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === false)
+      }
     }
   },
 };
@@ -70,8 +85,14 @@ export default {
       <option value="asc">A - Z</option>
       <option value="desc">Z - A</option>
     </select>
-    <button class="btn btn-primary btn-sm" v-on:click="sortFavoriteRecipes(sort)">Sort and Filter</button>
-    <div v-for="favorite in favorites">
+    <label for="filter">Filter by:</label>
+    <select id="filter" v-model="filter">
+      <option value="true">Already Made</option>
+      <option value="false">Need to Make</option>
+      <option value="all">All Favorites</option>
+    </select>
+    <button class="btn btn-primary btn-sm" v-on:click="selectFavoriteRecipes(sort, filter)">Update Results</button>
+    <div v-for="favorite in selectFavorites">
       <h2>{{ favorite.recipe.name }}</h2>
       <p>{{ favorite.recipe.description }}</p>
       <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details <span
