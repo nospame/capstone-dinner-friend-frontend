@@ -24,25 +24,20 @@ export default {
       this.$router.push(`/recipes/${id}`)
     },
     sortFavoriteRecipes: function (sort) {
-      switch (sort) {
-        case 'old':
-          this.favorites = this.favorites.sort((a, b) => {
-            let da = new Date(a.created_at),
-              db = new Date(b.created_at);
+      this.favorites = this.favorites.sort((a, b) => {
+        if (sort === 'old' || sort === 'new') {
+          let da = new Date(a.created_at),
+            db = new Date(b.created_at);
+          if (sort === 'old') {
             return da - db;
-          })
-          break
-        case 'new':
-          this.favorites = this.favorites.sort((a, b) => {
-            let da = new Date(a.created_at),
-              db = new Date(b.created_at);
+          } else {
             return db - da;
-          })
-          break
-        case 'asc':
-          this.favorites = this.favorites.sort((a, b) => {
-            let ra = a.recipe.name.toLowerCase(),
-              rb = b.recipe.name.toLowerCase();
+          }
+        }
+        else if (sort === 'asc' || sort === 'desc') {
+          let ra = a.recipe.name.toLowerCase(),
+            rb = b.recipe.name.toLowerCase();
+          if (sort === 'asc') {
             if (ra < rb) {
               return -1;
             }
@@ -50,12 +45,7 @@ export default {
               return 1;
             }
             return 0;
-          });
-          break
-        case 'desc':
-          this.favorites = this.favorites.sort((a, b) => {
-            let ra = a.recipe.name.toLowerCase(),
-              rb = b.recipe.name.toLowerCase();
+          } else {
             if (rb < ra) {
               return -1;
             }
@@ -63,9 +53,9 @@ export default {
               return 1;
             }
             return 0;
-          });
-          break
-      }
+          }
+        }
+      })
     }
   },
 };
