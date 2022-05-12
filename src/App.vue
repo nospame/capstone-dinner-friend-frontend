@@ -26,7 +26,7 @@ export default {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" to="/recipes">All Recipes</router-link>
+            <router-link class="nav-link active" aria-current="page" to="/recipes">Search Recipes</router-link>
           </li>
           <li v-if="user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/favorites">Favorites</router-link>

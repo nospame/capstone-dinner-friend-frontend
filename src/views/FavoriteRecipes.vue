@@ -6,8 +6,8 @@ export default {
     return {
       message: "Welcome to the Favorites Page",
       favorites: [],
-      sort: '',
-      filter: '',
+      sort: 'new',
+      filter: 'all',
       selectFavorites: this.favorites
     };
   },
@@ -78,30 +78,36 @@ export default {
 
 <template>
   <div class="favorites">
-    <label for="sort">Sort by:</label>
-    <select id="sort" v-model="sort">
-      <option value="new">Newest</option>
-      <option value="old">Oldest</option>
-      <option value="asc">A - Z</option>
-      <option value="desc">Z - A</option>
-    </select>
-    <label for="filter">Filter by:</label>
-    <select id="filter" v-model="filter">
-      <option value="true">Already Made</option>
-      <option value="false">Need to Make</option>
-      <option value="all">All Favorites</option>
-    </select>
-    <button class="btn btn-primary btn-sm" v-on:click="selectFavoriteRecipes(sort, filter)">Update Results</button>
-    <div v-for="favorite in selectFavorites">
-      <h2>{{ favorite.recipe.name }}</h2>
-      <p>{{ favorite.recipe.description }}</p>
-      <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details <span
-          class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
-          v-if="!favorite.has_made">
-          <span class="visually-hidden">New to Favorites</span>
-        </span></button>
+    <div v-if="favorites.length > 0">
+      <label for="sort">Sort by:</label>
+      <select id="sort" v-model="sort">
+        <option value="new" selected>Newest</option>
+        <option value="old">Oldest</option>
+        <option value="asc">A - Z</option>
+        <option value="desc">Z - A</option>
+      </select>
+      <label for="filter">Filter by:</label>
+      <select id="filter" v-model="filter">
+        <option value="all" selected>All Favorites</option>
+        <option value="false">Need to Make</option>
+        <option value="true">Already Made</option>
+      </select>
+      <button class="btn btn-primary btn-sm" v-on:click="selectFavoriteRecipes(sort, filter)">Update Results</button>
+      <div v-for="favorite in selectFavorites">
+        <h2>{{ favorite.recipe.name }}</h2>
+        <p>{{ favorite.recipe.description }}</p>
+        <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details
+          <span
+            class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
+            v-if="!favorite.has_made">
+            <span class="visually-hidden">New to Favorites</span>
+          </span></button>
 
-      <hr />
+        <hr />
+      </div>
+    </div>
+    <div v-else="favorites.length === 0">
+      <p>Nothing to see here! Try adding some favorites from the search page.</p>
     </div>
   </div>
 </template>

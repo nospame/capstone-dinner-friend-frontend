@@ -5,10 +5,7 @@ import Multiselect from '@vueform/multiselect'
 export default {
   components: { Multiselect },
 
-  created: function () {
-    // this.getRecipes()
-    this.getTags()
-  },
+  created: function () { },
 
   data: function () {
     return {
@@ -26,11 +23,14 @@ export default {
 
   methods: {
     getTags: function () {
-      axios.get('/tags.json')
-        .then(response => {
-          this.tags = response.data
-          console.log(this.tags)
+      this.tags = []
+      this.recipes.forEach(recipe => {
+        recipe.tags.forEach(tag => {
+          if (!this.tags.includes(tag.name)) {
+            this.tags.push(tag.name)
+          }
         })
+      })
     },
     newSearch: function () {
       this.offset = 0
@@ -46,6 +46,7 @@ export default {
         .then(response => {
           this.recipes = response.data
           this.notify = response.data.length > 0 ? '' : "No results found. Try using fewer tags or a different search term."
+          this.getTags()
         })
     },
     showRecipe: function (id) {
@@ -81,10 +82,12 @@ export default {
       <option value="ASC">A - Z</option>
       <option value="DESC">Z - A</option>
     </select>
-    <Multiselect v-model="value" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
-      :searchable="true">
-    </Multiselect>
-    <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Sort and Filter</button>
+    <div v-if="recipes.length > 0">
+      <Multiselect v-model="value" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
+        :searchable="true">
+      </Multiselect>
+      <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Update Results</button>
+    </div>
     <p>{{ notify }}</p>
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
