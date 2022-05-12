@@ -30,10 +30,14 @@ export default {
   <div class="favorites">
     <div v-for="favorite in favorites">
       <h2>{{ favorite.recipe.name }}</h2>
-      <span v-if="!favorite.has_made" class="badge bg-info">Not Cooked</span>
-      <span v-else="!!favorite.has_made" class="badge bg-secondary">Cooked!</span>
+      <!-- <span v-if="!favorite.has_made" class="badge bg-info">Not Cooked</span>
+      <span v-else="!!favorite.has_made" class="badge bg-secondary">Cooked!</span> -->
       <p>{{ favorite.recipe.description }}</p>
-      <button class="btn btn-primary" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details</button>
+      <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details <span
+          class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
+          v-if="!favorite.has_made">
+          <span class="visually-hidden">New to Favorites</span>
+        </span></button>
 
       <hr />
     </div>

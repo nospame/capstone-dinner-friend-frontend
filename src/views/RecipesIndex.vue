@@ -19,7 +19,8 @@ export default {
       searchTerm: '',
       offset: 0,
       value: null,
-      options: [{ id: 0, name: 'tag' }]
+      options: [{ id: 0, name: 'tag' }],
+      sort: 'ASC'
     };
   },
 
@@ -37,7 +38,7 @@ export default {
     },
     getRecipes: function () {
       this.notify = "Searching..."
-      let url = `/recipes.json?q=${this.searchTerm}&offset=${this.offset}`
+      let url = `/recipes.json?q=${this.searchTerm}&offset=${this.offset}&sort=${this.sort}`
       if (!!this.value) {
         url = `${url}&tags=${this.value}`
       }
@@ -59,6 +60,9 @@ export default {
       this.offset -= 20
       this.getRecipes()
       window.scrollTo(0, 0)
+    },
+    sortResults: function () {
+
     }
   },
 };
@@ -69,12 +73,18 @@ export default {
     <h1>{{ message }}</h1>
     <p>Search for an ingredient or keyword</p>
     <form v-on:submit.prevent="newSearch()">
-      <input placeholder="Search" type="text" v-model="searchTerm">
+      <input placeholder="Search" type="search" v-model="searchTerm">
       <input class="btn btn-primary" type="submit" value="Search">
     </form>
+    <label for="sort">Sort by:</label>
+    <select id="sort" v-model="sort">
+      <option value="ASC">A - Z</option>
+      <option value="DESC">Z - A</option>
+    </select>
     <Multiselect v-model="value" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
-      :searchable="true" v-on:select="newSearch()">
+      :searchable="true">
     </Multiselect>
+    <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Sort and Filter</button>
     <p>{{ notify }}</p>
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>

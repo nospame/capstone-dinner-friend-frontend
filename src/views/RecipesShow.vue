@@ -58,12 +58,14 @@ export default {
   <div class="recipes-show">
     <h1>{{ message }}</h1>
     <div>
-      <h2>{{ recipe.name }}</h2>
+      <h2>{{ recipe.name }} <button class="btn btn-outline-success btn-sm" v-if="recipe.favorited == false"
+          v-on:click="favoriteRecipe()">&#9734;</button>
+        <button class="btn btn-outline-success btn-sm" v-else-if="!!recipe.favorited"
+          v-on:click="unfavoriteRecipe()">&#9733;</button>
+        <button class="btn btn-outline-success btn-sm disabled" v-else="!user.loggedIn">&#9734;</button>
+      </h2>
       <p>{{ recipe.description }}</p>
-      <button class="btn btn-primary btn-sm" v-if="recipe.favorited == false"
-        v-on:click="favoriteRecipe()">Favorite</button>
-      <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited"
-        v-on:click="unfavoriteRecipe()">Unfavorite</button>
+
       <button class="btn btn-primary btn-sm" v-if="!!recipe.favorited && !recipe.has_made"
         v-on:click="markCooked()">Cook recipe!</button>
       <button class="btn btn-success btn-sm disabled" v-if="!!recipe.favorited && !!recipe.has_made">Recipe
