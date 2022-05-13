@@ -1,11 +1,13 @@
 <script>
-import axios from "axios";
+import axios from "axios"
+import { user } from '../user.js'
 
 export default {
   data: function () {
     return {
       newSessionParams: {},
       errors: [],
+      user
     };
   },
   methods: {
@@ -15,12 +17,12 @@ export default {
         .then((response) => {
           axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
-          // this.$router.push("/");
+          // user.name = response.data.user_name;
           this.$router.go(-1);
         })
         .catch((error) => {
           console.log(error.response);
-          this.errors = ["Invalid email or password."]; // consider using username to log in
+          this.errors = ["Invalid email or password."];
           this.email = "";
           this.password = "";
         });

@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import { user } from '../user.js'
 
 export default {
   data: function () {
@@ -8,7 +9,8 @@ export default {
       favorites: [],
       sort: 'new',
       filter: 'all',
-      selectFavorites: this.favorites
+      selectFavorites: this.favorites,
+      user
     };
   },
   created: function () {
@@ -78,6 +80,7 @@ export default {
 
 <template>
   <div class="favorites">
+    <h1>Favorites</h1>
     <div v-if="favorites.length > 0">
       <label for="sort">Sort by:</label>
       <select id="sort" v-model="sort">

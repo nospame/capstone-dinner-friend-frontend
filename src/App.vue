@@ -1,7 +1,6 @@
 <script>
 import { user } from './user.js'
 
-
 export default {
   data: function () {
     return {
@@ -29,7 +28,10 @@ export default {
             <router-link class="nav-link active" aria-current="page" to="/recipes">Search Recipes</router-link>
           </li>
           <li v-if="user.loggedIn" class="nav-item">
-            <router-link class="nav-link" to="/favorites">Favorites</router-link>
+            <router-link class="nav-link" to="/favorites/recipes">Favorites</router-link>
+          </li>
+          <li v-if="user.loggedIn" class="nav-item">
+            <router-link class="nav-link" to="/favorites/searches">Saved Searches</router-link>
           </li>
           <li v-if="!user.loggedIn" class="nav-item">
             <router-link class="nav-link" to="/users/new">Sign Up</router-link>

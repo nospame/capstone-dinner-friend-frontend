@@ -1,13 +1,20 @@
 <script>
-  import axios from "axios";
+import axios from "axios";
+import { user } from '../user.js'
 
-  export default {
-    created: function () {
-      delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem("jwt");
-      this.$router.push("/");
-    },
-  };
+export default {
+  created: function () {
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("jwt");
+    // user.name = '';
+    this.$router.push("/");
+  },
+  data: function () {
+    return {
+      user
+    }
+  }
+};
 </script>
 
 <template>

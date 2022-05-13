@@ -5,7 +5,12 @@ import Multiselect from '@vueform/multiselect'
 export default {
   components: { Multiselect },
 
-  created: function () { },
+  created: function () {
+    if (this.$route.query.q) {
+      this.searchTerm = this.$route.query.q
+      this.newSearch()
+    }
+  },
 
   data: function () {
     return {
@@ -31,6 +36,7 @@ export default {
           }
         })
       })
+      this.tags = this.tags.sort()
     },
     newSearch: function () {
       this.offset = 0
@@ -62,8 +68,8 @@ export default {
       this.getRecipes()
       window.scrollTo(0, 0)
     },
-    sortResults: function () {
-
+    favoriteSearch: function () {
+      axios.post("/favorite_searches.json", { search_term: this.searchTerm })
     }
   },
 };
@@ -77,7 +83,7 @@ export default {
       <input placeholder="Search" type="search" v-model="searchTerm">
       <input class="btn btn-primary" type="submit" value="Search">
     </form>
-    <label for="sort">Sort by:</label>
+    <label for="sort">Sort:</label>
     <select id="sort" v-model="sort">
       <option value="ASC">A - Z</option>
       <option value="DESC">Z - A</option>
@@ -87,6 +93,7 @@ export default {
         :searchable="true">
       </Multiselect>
       <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Update Results</button>
+      <button class="btn btn-primary btn-sm" v-on:click="favoriteSearch()">Save this Search</button>
     </div>
     <p>{{ notify }}</p>
     <div v-for="recipe in recipes">
