@@ -42,7 +42,7 @@ export default {
     newSearch: function () {
       this.offset = 0
       this.getRecipes()
-      history.pushState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
+      history.replaceState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
     },
     getRecipes: function () {
       this.notify = "Searching..."
