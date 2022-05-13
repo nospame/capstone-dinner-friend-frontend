@@ -6,8 +6,9 @@ export default {
   components: { Multiselect },
 
   created: function () {
-    if (this.$route.query.q) {
-      this.searchTerm = this.$route.query.q
+    if (this.$route.query.q || this.$route.query.tags) {
+      this.searchTerm = this.$route.query.q || ''
+      this.searchTags = this.$route.query.tags.split(',') || []
       this.newSearch()
     }
   },
@@ -20,7 +21,7 @@ export default {
       recipes: [],
       searchTerm: '',
       offset: 0,
-      value: null,
+      searchTags: [],
       options: [{ id: 0, name: 'tag' }],
       sort: 'ASC'
     };
@@ -41,17 +42,18 @@ export default {
     newSearch: function () {
       this.offset = 0
       this.getRecipes()
+      history.pushState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
     },
     getRecipes: function () {
       this.notify = "Searching..."
       let url = `/recipes.json?q=${this.searchTerm}&offset=${this.offset}&sort=${this.sort}`
-      if (!!this.value) {
-        url = `${url}&tags=${this.value}`
+      if (!!this.searchTags) {
+        url = `${url}&tags=${this.searchTags}`
       }
       axios.get(url)
         .then(response => {
           this.recipes = response.data
-          this.notify = response.data.length > 0 ? '' : "No results found. Try using fewer tags or a different search term."
+          this.notify = response.data.length > 0 ? '' : "No results found. Try using a different search term."
           this.getTags()
         })
     },
@@ -69,7 +71,8 @@ export default {
       window.scrollTo(0, 0)
     },
     favoriteSearch: function () {
-      axios.post("/favorite_searches.json", { search_term: this.searchTerm })
+      axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.tags })
+        .then(this.notify = "Search favorited!")
     }
   },
 };
@@ -89,7 +92,7 @@ export default {
       <option value="DESC">Z - A</option>
     </select>
     <div v-if="recipes.length > 0">
-      <Multiselect v-model="value" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
+      <Multiselect v-model="searchTags" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
         :searchable="true">
       </Multiselect>
       <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Update Results</button>
