@@ -42,7 +42,7 @@ export default {
     newSearch: function () {
       this.offset = 0
       this.getRecipes()
-      history.replaceState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
+      history.pushState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
     },
     getRecipes: function () {
       this.notify = "Searching..."
@@ -71,7 +71,7 @@ export default {
       window.scrollTo(0, 0)
     },
     favoriteSearch: function () {
-      axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.tags })
+      axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.searchTags })
         .then(this.notify = "Search favorited!")
     }
   },
