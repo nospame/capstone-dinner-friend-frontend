@@ -1,5 +1,7 @@
 # capstone-dinner-friend-frontend
 
+Find me online at: https://nospame-capstone-frontend.netlify.app/
+
 ## Project setup
 ```
 npm install
