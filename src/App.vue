@@ -15,25 +15,37 @@ export default {
 }
 </script>
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid w-75">
       <a class="navbar-brand" href="/">Dinner Party's Friend</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <router-link class="nav-link" to="/recipes">Search</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <li class="nav-item" v-if="user.loggedIn">
+            <router-link class="nav-link" to="/favorites/recipes">Favorite Recipes</router-link>
           </li>
+          <li class="nav-item" v-else="!user.loggedIn">
+            <router-link class="nav-link disabled" to="#">Favorite Recipes</router-link>
+          </li>
+          <li class="nav-item" v-if="user.loggedIn">
+            <router-link class="nav-link" to="/favorites/searches">Saved Searches</router-link>
+          </li>
+          <li class="nav-item" v-else="!user.loggedIn">
+            <router-link class="nav-link disabled" to="#">Saved Searches</router-link>
+          </li>
+
+
+
           <li class="nav-item dropdown" v-if="!user.loggedIn">
-            <a class="btn btn-primary" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+            <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
               Sign Up
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -49,8 +61,8 @@ export default {
             <router-link class="btn btn-secondary" to="/logout">Logout</router-link>
           </li>
 
-        </ul>
 
+        </ul>
       </div>
     </div>
   </nav>

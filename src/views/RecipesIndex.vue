@@ -73,6 +73,11 @@ export default {
     favoriteSearch: function () {
       axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.searchTags })
         .then(this.notify = "Search favorited!")
+    },
+    clearSearch: function () {
+      this.searchTerm = ''
+      this.searchTags = []
+      this.sort = 'ASC'
     }
   },
 };
@@ -80,33 +85,52 @@ export default {
 
 <template>
   <div class="recipes-index">
-    <h1>{{ message }}</h1>
-    <p>Search for an ingredient or keyword</p>
+    <h1 class="display-3 text-center">{{ message }}</h1>
+
     <form v-on:submit.prevent="newSearch()">
-      <input placeholder="Search" type="search" v-model="searchTerm">
-      <input class="btn btn-primary" type="submit" value="Search">
+      <div class="input-group w-50 m-auto">
+        <input type="text" class="form-control" placeholder="Try 'dinner' or 'banana'" aria-label="Search"
+          v-model="searchTerm">
+        <input class="input-group-text btn btn-primary" type="submit" value="Search">
+
+        <Multiselect v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine search" :options="tags"
+          valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
+        </Multiselect>
+
+      </div>
     </form>
-    <label for="sort">Sort:</label>
-    <select id="sort" v-model="sort">
-      <option value="ASC">A - Z</option>
-      <option value="DESC">Z - A</option>
-    </select>
-    <div v-if="recipes.length > 0">
-      <Multiselect v-model="searchTags" placeholder="Filter" :options="tags" valueProp="name" label="name" mode="tags"
-        :searchable="true">
-      </Multiselect>
-      <button class="btn btn-primary btn-sm" v-on:click="newSearch()">Update Results</button>
-      <button class="btn btn-primary btn-sm" v-on:click="favoriteSearch()">Save this Search</button>
+
+    <div v-if="recipes.length > 0" class="row align-items-end">
+      <div class="col-2">
+        <label for="sort" class="form-label">Sort:</label>
+        <select id="sort" class="form-select form-select-sm" v-model="sort" v-on:change="newSearch()">
+          <option value="ASC">A - Z</option>
+          <option value="DESC">Z - A</option>
+        </select>
+      </div>
+      <div class="col-auto ms-auto">
+        <button class="btn btn-success btn-sm" v-on:click="favoriteSearch()">Save this Search</button>
+        <button class="btn btn-warning btn-sm" v-on:click="clearSearch()">Clear Search</button>
+      </div>
+
     </div>
     <p>{{ notify }}</p>
+
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
       <p>{{ recipe.description }}</p>
       <button class="btn btn-primary" v-on:click="showRecipe(recipe.id)">Recipe Details</button>
       <hr />
     </div>
-    <button class="btn btn-secondary" v-if="offset > 0" v-on:click="prevPage()">Previous Page</button>
-    <button class="btn btn-secondary" v-if="recipes.length === 20" v-on:click="nextPage()">Next Page</button>
+
+    <div class="row">
+      <div class="col-auto me-auto">
+        <button class="btn btn-secondary" v-if="offset > 0" v-on:click="prevPage()">Previous Page</button>
+      </div>
+      <div class="col-auto ms-auto">
+        <button class="btn btn-secondary" v-if="recipes.length === 20" v-on:click="nextPage()">Next Page</button>
+      </div>
+    </div>
   </div>
 </template>
 
