@@ -85,18 +85,21 @@ export default {
   <main class="main" id="top">
 
     <section class="py-0" id="home">
-      <div class="bg-holder d-none d-md-block" style="background-position:right bottom;background-size:contain;"> -->
+      <div class="bg-holder d-none d-md-block"
+        style="background-image:url(assets/img/gallery/dinner-table.jpg);background-position:right bottom;">
+        -->
       </div>
       <!--/.bg-holder-->
 
       <div class="bg-holder d-block d-md-none"
-        style="background-image:url(assets/img/gallery/dinner-table.jpg);background-position:right top;background-size:contain;">
+        style="background-image:url(assets/img/gallery/dinner-table.jpg);background-position:right top;">
       </div>
       <!--/.bg-holder-->
 
       <div class="container">
         <div class="row align-items-center min-vh-md-75">
-          <div class="col-md-7 col-lg-6 py-6 text-sm-start text-center">
+          <div class="col-md-7 col-lg-6 py-6 text-sm-start text-center"
+            style="background-color:rgba(255, 255, 255, 0.7)">
             <h1 class="mt-6 mb-sm-4 display-4 fw-semi-bold lh-sm fs-4 fs-lg-6 fs-xxl-7">Just recipes, <br
                 class="d-block d-lg-none d-xl-block" />no SEO</h1>
             <p class="mb-4 fs-1">Find and favorite to get right to the food</p>
