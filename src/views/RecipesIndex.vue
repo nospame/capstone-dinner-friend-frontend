@@ -1,6 +1,7 @@
 <script>
 import axios from "axios"
 import Multiselect from '@vueform/multiselect'
+import bootstrap from 'bootstrap'
 
 export default {
   components: { Multiselect },
@@ -53,7 +54,7 @@ export default {
       axios.get(url)
         .then(response => {
           this.recipes = response.data
-          this.notify = response.data.length > 0 ? '' : "No results found. Try using a different search term."
+          this.notify = response.data.length > 0 ? '' : "No results found. Try using a different search term or fewer tags."
           this.getTags()
         })
     },
@@ -72,7 +73,12 @@ export default {
     },
     favoriteSearch: function () {
       axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.searchTags })
-        .then(this.notify = "Search favorited!")
+        .then(() => {
+          this.notify = "Search saved!"
+          setTimeout(() => {
+            this.notify = ''
+          }, 3000)
+        })
     },
     clearSearch: function () {
       this.searchTerm = ''
@@ -89,14 +95,18 @@ export default {
 
     <form v-on:submit.prevent="newSearch()">
       <div class="input-group w-50 m-auto">
-        <input type="text" class="form-control" placeholder="Try 'dinner' or 'banana'" aria-label="Search"
-          v-model="searchTerm">
-        <input class="input-group-text btn btn-primary" type="submit" value="Search">
-
-        <Multiselect v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine search" :options="tags"
-          valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
+        <div class="row m-auto">
+          <div class="col-auto">
+            <input type="text" class="form-control form-control-lg mb-3" placeholder="Try 'dinner' or 'banana'"
+              aria-label="Search" v-model="searchTerm">
+          </div>
+          <div class="col-auto">
+            <input class="btn btn-primary btn-lg mb-3" type="submit" value="Search">
+          </div>
+        </div>
+        <Multiselect class="w-50 m-auto" v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags"
+          :options="tags" valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
         </Multiselect>
-
       </div>
     </form>
 
@@ -110,11 +120,13 @@ export default {
       </div>
       <div class="col-auto ms-auto">
         <button class="btn btn-success btn-sm" v-on:click="favoriteSearch()">Save this Search</button>
-        <button class="btn btn-warning btn-sm" v-on:click="clearSearch()">Clear Search</button>
+        <button class="btn btn-secondary btn-sm" v-on:click="clearSearch()">Clear Search</button>
       </div>
-
     </div>
-    <p>{{ notify }}</p>
+
+    <div class="small text-center" role="alert">
+      {{ notify }}
+    </div>
 
     <div v-for="recipe in recipes">
       <h2>{{ recipe.name }}</h2>
