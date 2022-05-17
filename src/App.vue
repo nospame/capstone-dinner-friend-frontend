@@ -62,9 +62,9 @@ export default {
     </div>
   </nav>
   {{ user.LoggedIn }}
-  <div class="container-sm my-4">
-    <router-view />
-  </div>
+  <!-- <div class="container-sm my-4"> -->
+  <router-view />
+  <!-- </div> -->
 </template>
 
 

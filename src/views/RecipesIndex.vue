@@ -1,7 +1,6 @@
 <script>
 import axios from "axios"
 import Multiselect from '@vueform/multiselect'
-import bootstrap from 'bootstrap'
 
 export default {
   components: { Multiselect },
@@ -90,59 +89,71 @@ export default {
 </script>
 
 <template>
-  <div class="recipes-index m-auto" style="max-width: 960px">
-    <h1 class="display-3 text-center">{{ message }}</h1>
-
-    <form v-on:submit.prevent="newSearch()">
-      <div class="input-group w-50 m-auto">
-        <div class="row m-auto">
-          <div class="col-auto ms-auto">
-            <input type="text" class="form-control form-control-lg my-3" placeholder="Try 'dinner' or 'banana'"
-              aria-label="Search" v-model="searchTerm">
-          </div>
-          <div class="col-auto me-auto">
-            <input class="btn btn-primary btn-lg my-3" type="submit" value="Search"><br />
+  <div class="text-center" style="background-image: url('/img/banner.jpg'); background-size:cover">
+    <div class="px-4 py-5 " style="background-color:rgba(255,255,255,0.7)">
+      <h1 class="display-5">Recipes, no SEO</h1>
+      <form v-on:submit.prevent="newSearch()">
+        <div class="input-group w-50 m-auto">
+          <div class="row m-auto">
+            <div class="col-auto ms-auto">
+              <input type="text" class="form-control form-control-lg my-3" placeholder="Try 'dinner' or 'banana'"
+                aria-label="Search" v-model="searchTerm">
+            </div>
+            <div class="col-auto me-auto">
+              <input class="btn btn-primary btn-lg my-3" type="submit" value="Search"><br />
+            </div>
           </div>
         </div>
-        <Multiselect class="w-50 m-auto" v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags"
-          :options="tags" valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
-        </Multiselect>
-      </div>
-    </form>
+        <div class="row w-25 m-auto">
+          <Multiselect v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags" :options="tags"
+            valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
+          </Multiselect>
+        </div>
+      </form>
 
-    <div class="small text-center">
-      <p role="alert">{{ notify }}</p>
-      <button v-if="recipes.length > 0 || notify != ''" class="btn btn-secondary btn-sm m-1"
-        v-on:click="clearSearch()">Clear
-        Search</button>
-    </div>
-
-    <div v-if="recipes.length > 0" class="row align-items-end">
-      <div class="col-2">
-        <label for="sort" class="form-label">Sort:</label>
-        <select id="sort" class="form-select form-select-sm" v-model="sort" v-on:change="newSearch()">
-          <option value="ASC">A - Z</option>
-          <option value="DESC">Z - A</option>
-        </select>
-      </div>
-      <div class="col-auto ms-auto">
-        <button class="btn btn-success mx-1" v-on:click="favoriteSearch()">Save this Search</button>
+      <div class="small text-center mb-3">
+        <p role="alert">{{ notify }}</p>
+        <button v-if="recipes.length > 0 || notify != ''" class="btn btn-secondary btn-sm m-1"
+          v-on:click="clearSearch()">Clear
+          Search</button>
       </div>
     </div>
+  </div>
 
-    <div v-for="recipe in recipes">
-      <h2>{{ recipe.name }}</h2>
-      <p>{{ recipe.description }}</p>
-      <button class="btn btn-primary" v-on:click="showRecipe(recipe.id)">Recipe Details</button>
-      <hr />
-    </div>
-
-    <div class="row">
-      <div class="col-auto me-auto">
-        <button class="btn btn-secondary" v-if="offset > 0" v-on:click="prevPage()">Previous Page</button>
+  <div class="m-auto" style="max-width: 960px">
+    <div v-if="recipes.length > 0" class="container m-auto">
+      <div class="mb-3 row align-items-end">
+        <div class="col-2 mb-3">
+          <label for="sort" class="form-label">Sort:</label>
+          <select id="sort" class="form-select form-select-sm" v-model="sort" v-on:change="newSearch()">
+            <option value="ASC">A - Z</option>
+            <option value="DESC">Z - A</option>
+          </select>
+        </div>
+        <div class="col-auto ms-auto mb-3">
+          <button class="btn btn-primary mx-1" v-on:click="favoriteSearch()">Save this Search</button>
+        </div>
       </div>
-      <div class="col-auto ms-auto">
-        <button class="btn btn-secondary" v-if="recipes.length === 20" v-on:click="nextPage()">Next Page</button>
+
+
+      <div v-for="recipe in recipes">
+        <div class="row">
+          <div class="col-auto">
+            <h2>{{ recipe.name }}</h2>
+          </div>
+        </div>
+        <p>{{ recipe.description }}</p>
+        <button class="btn btn-primary" v-on:click="showRecipe(recipe.id)">Recipe Details</button>
+        <hr />
+      </div>
+
+      <div class="row">
+        <div class="col-auto me-auto">
+          <button class="btn btn-secondary" v-if="offset > 0" v-on:click="prevPage()">Previous Page</button>
+        </div>
+        <div class="col-auto ms-auto">
+          <button class="btn btn-secondary" v-if="recipes.length === 20" v-on:click="nextPage()">Next Page</button>
+        </div>
       </div>
     </div>
   </div>

@@ -25,8 +25,8 @@ export default {
           this.selectFavorites = this.favorites
         })
     },
-    showRecipe: function (id) {
-      this.$router.push(`/recipes/${id}`)
+    showRecipe: function (favorite) {
+      this.$router.push(`/recipes/${favorite.recipe.id}`)
     },
     selectFavoriteRecipes: function (sort, filter) {
       this.sortFavoriteRecipes(sort);
@@ -73,6 +73,13 @@ export default {
       else if (filter === 'false') {
         this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === false)
       }
+    },
+    unfavoriteRecipe: function (favorite) {
+      axios.delete(`/favorite_recipes/${favorite.recipe.id}`)
+        .then(() => {
+          console.log("deleted!")
+          this.favorites.splice(this.favorites.indexOf(favorite), 1)
+        })
     }
   },
 };
@@ -103,16 +110,23 @@ export default {
           </select>
         </div>
       </div>
+
       <div v-for="favorite in selectFavorites">
-        <h2>{{ favorite.recipe.name }}</h2>
+        <div class="row">
+          <div class="col-auto">
+            <h2>{{ favorite.recipe.name }}</h2>
+          </div>
+          <div class="col-auto ms-auto">
+            <button type="button" class="btn-close" v-on:click="unfavoriteRecipe(favorite)"></button>
+          </div>
+        </div>
         <p>{{ favorite.recipe.description }}</p>
-        <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite.recipe.id)">Recipe Details
+        <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite)">Recipe Details
           <span
             class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
             v-if="!favorite.has_made">
-            <span class="visually-hidden">New to Favorites</span>
+            <span class="visually-hidden">New</span>
           </span></button>
-
         <hr />
       </div>
     </div>
