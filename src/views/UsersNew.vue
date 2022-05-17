@@ -25,29 +25,32 @@ export default {
 </script>
 
 <template>
-  <div class="signup">
+  <div class="signup m-auto" style="max-width: 720px">
     <form v-on:submit.prevent="submit()">
-      <h1>Signup</h1>
+      <h1>Sign Up</h1>
       <ul>
         <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
       </ul>
-      <div>
-        <label>Name:</label>
-        <input type="text" v-model="newUserParams.name" />
+      <div class="mb-3">
+        <label for="input-name" class="form-label">Name:</label>
+        <input type="text" id="input-name" class="form-control" v-model="newUserParams.name" />
       </div>
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="newUserParams.email" />
+      <div class="mb-3">
+        <label for="input-email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="input-email" v-model="newUserParams.email" />
       </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="newUserParams.password" />
+      <div class="mb-3 row">
+        <div class="col">
+          <label for="input-password" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="input-password" v-model="newUserParams.password" />
+        </div>
+        <div class="col">
+          <label for="confirm-password" class="form-label">Password confirmation:</label>
+          <input type="password" class="form-control" id="confirm-password"
+            v-model="newUserParams.password_confirmation" />
+        </div>
       </div>
-      <div>
-        <label>Password confirmation:</label>
-        <input type="password" v-model="newUserParams.password_confirmation" />
-      </div>
-      <input type="submit" value="Submit" />
+      <input type="submit" class="btn btn-primary mb-3" value="Submit" />
     </form>
   </div>
 </template>

@@ -22,7 +22,7 @@ export default {
       recipes: [],
       searchTerm: '',
       offset: 0,
-      searchTags: [],
+      searchTags: null,
       options: [{ id: 0, name: 'tag' }],
       sort: 'ASC'
     };
@@ -77,7 +77,7 @@ export default {
           this.notify = "Search saved!"
           setTimeout(() => {
             this.notify = ''
-          }, 3000)
+          }, 5000)
         })
     },
     clearSearch: function () {
@@ -90,18 +90,18 @@ export default {
 </script>
 
 <template>
-  <div class="recipes-index">
+  <div class="recipes-index m-auto" style="max-width: 960px">
     <h1 class="display-3 text-center">{{ message }}</h1>
 
     <form v-on:submit.prevent="newSearch()">
       <div class="input-group w-50 m-auto">
         <div class="row m-auto">
-          <div class="col-auto">
-            <input type="text" class="form-control form-control-lg mb-3" placeholder="Try 'dinner' or 'banana'"
+          <div class="col-auto ms-auto">
+            <input type="text" class="form-control form-control-lg my-3" placeholder="Try 'dinner' or 'banana'"
               aria-label="Search" v-model="searchTerm">
           </div>
-          <div class="col-auto">
-            <input class="btn btn-primary btn-lg mb-3" type="submit" value="Search">
+          <div class="col-auto me-auto">
+            <input class="btn btn-primary btn-lg my-3" type="submit" value="Search"><br />
           </div>
         </div>
         <Multiselect class="w-50 m-auto" v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags"
@@ -109,6 +109,13 @@ export default {
         </Multiselect>
       </div>
     </form>
+
+    <div class="small text-center">
+      <p role="alert">{{ notify }}</p>
+      <button v-if="recipes.length > 0 || notify != ''" class="btn btn-secondary btn-sm m-1"
+        v-on:click="clearSearch()">Clear
+        Search</button>
+    </div>
 
     <div v-if="recipes.length > 0" class="row align-items-end">
       <div class="col-2">
@@ -119,13 +126,8 @@ export default {
         </select>
       </div>
       <div class="col-auto ms-auto">
-        <button class="btn btn-success btn-sm" v-on:click="favoriteSearch()">Save this Search</button>
-        <button class="btn btn-secondary btn-sm" v-on:click="clearSearch()">Clear Search</button>
+        <button class="btn btn-success mx-1" v-on:click="favoriteSearch()">Save this Search</button>
       </div>
-    </div>
-
-    <div class="small text-center" role="alert">
-      {{ notify }}
     </div>
 
     <div v-for="recipe in recipes">

@@ -79,23 +79,30 @@ export default {
 </script>
 
 <template>
-  <div class="favorites">
-    <h1>Favorites</h1>
-    <div v-if="favorites.length > 0">
-      <label for="sort">Sort by:</label>
-      <select id="sort" v-model="sort">
-        <option value="new" selected>Newest</option>
-        <option value="old">Oldest</option>
-        <option value="asc">A - Z</option>
-        <option value="desc">Z - A</option>
-      </select>
-      <label for="filter">Filter by:</label>
-      <select id="filter" v-model="filter">
-        <option value="all" selected>All Favorites</option>
-        <option value="false">Need to Make</option>
-        <option value="true">Already Made</option>
-      </select>
-      <button class="btn btn-primary btn-sm" v-on:click="selectFavoriteRecipes(sort, filter)">Update Results</button>
+  <div class="favorites m-auto" style="max-width: 960px">
+    <h1 class="display-3 text-center m-5">Favorites</h1>
+    <div v-if="favorites.length > 0" class="container m-auto">
+      <div class="mb-3 row">
+        <div class="col mb-3">
+          <label for="sort" class="form-label">Sort:</label>
+          <select id="sort" class="form-select form-select-sm" v-model="sort"
+            v-on:change="selectFavoriteRecipes(sort, filter)">
+            <option value="new" selected>Newest Added</option>
+            <option value="old">Oldest Added</option>
+            <option value="asc">A - Z</option>
+            <option value="desc">Z - A</option>
+          </select>
+        </div>
+        <div class="col mb-3">
+          <label for="filter" class="form-label">Filter:</label>
+          <select id="filter" v-model="filter" class="form-select form-select-sm"
+            v-on:change="selectFavoriteRecipes(sort, filter)">
+            <option value="all" selected>All Favorites</option>
+            <option value="false">Need to Make</option>
+            <option value="true">Already Made</option>
+          </select>
+        </div>
+      </div>
       <div v-for="favorite in selectFavorites">
         <h2>{{ favorite.recipe.name }}</h2>
         <p>{{ favorite.recipe.description }}</p>

@@ -17,19 +17,47 @@ export default {
         .then(response => {
           this.favorites = response.data
         })
+    },
+    destroyFavoriteSearch: function (favorite) {
+      axios.delete(`/favorite_searches/${favorite.id}.json`)
+        .then(() => {
+          console.log("deleted!")
+          this.favorites.splice(this.favorites.indexOf(favorite), 1)
+        })
     }
   },
 };
 </script>
 
 <template>
-  <div class="favorite-searches">
-    <h1>{{ message }}</h1>
-    <h2>What can I make with... ?</h2>
-    <div v-for="favorite in favorites">
-      <router-link v-bind:to="`/recipes?q=${favorite.search_term}&tags=${favorite.tags}`">{{ favorite.search_term }}
-      </router-link>
-      <div v-if="favorite.tags.length > 0"> tags: <span v-for="tag in favorite.tags">{{ tag }}&nbsp;</span></div>
+  <div class="favorite-searches m-auto" style="max-width: 960px">
+    <h1 class="display-3 text-center m-5">Saved Searches</h1>
+
+    <h2>Find me a dish that's...</h2>
+    <div class="row">
+      <div v-for="favorite in favorites" class="col-sm-4 my-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <router-link class="col-lg col-auto"
+                v-bind:to="`/recipes?q=${favorite.search_term}&tags=${favorite.tags}`">
+                <h5 class="card-title">{{ favorite.search_term }}</h5>
+              </router-link>
+              <div class="col-auto ms-auto">
+                <button type="button" class="btn-close" v-on:click="destroyFavoriteSearch(favorite)"></button>
+              </div>
+              <h6 class="card-subtitle mb-2 text-muted" v-if="favorite.tags.length > 0">and tagged:
+                <ul>
+                  <li v-for="tag in favorite.tags">{{ tag }}</li>
+                </ul>
+              </h6>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
     </div>
   </div>
 </template>

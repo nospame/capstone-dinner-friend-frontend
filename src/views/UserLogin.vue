@@ -32,22 +32,21 @@ export default {
 </script>
 
 <template>
-  <div class="login">
+  <div class="login m-auto" style="max-width: 720px">
     <form v-on:submit.prevent="submit()">
       <h1>Login</h1>
       <ul>
         <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
       </ul>
-      <div>
-        <label>Email:</label>
-        <!-- consider using username to log in -->
-        <input type="email" v-model="newSessionParams.email" />
+      <div class="mb-3">
+        <label for="login-email" class="form-label">Email:</label>
+        <input type="email" id="login-email" class="form-control" v-model="newSessionParams.email" />
       </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="newSessionParams.password" />
+      <div class="mb-3">
+        <label for="login-password" class="form-label">Password:</label>
+        <input type="password" id="login-password" class="form-control" v-model="newSessionParams.password" />
       </div>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit" class="btn btn-primary mb-3" />
     </form>
   </div>
 </template>

@@ -40,9 +40,6 @@ export default {
           <li class="nav-item" v-else="!user.loggedIn">
             <router-link class="nav-link disabled" to="#">Saved Searches</router-link>
           </li>
-
-
-
           <li class="nav-item dropdown" v-if="!user.loggedIn">
             <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
@@ -60,14 +57,12 @@ export default {
           <li class="nav-item" v-else="user.loggedIn">
             <router-link class="btn btn-secondary" to="/logout">Logout</router-link>
           </li>
-
-
         </ul>
       </div>
     </div>
   </nav>
   {{ user.LoggedIn }}
-  <div class="container">
+  <div class="container-sm my-4">
     <router-view />
   </div>
 </template>
