@@ -62,7 +62,7 @@ export default {
 <template>
   <div class="recipes-show m-auto" style="max-width: 720px">
     <h1 class="display-3 text-center m-5">{{ message }}</h1>
-    <div class="container m-3">
+    <div class="container m-3 border rounded">
       <section class="row mx-1 my-3 align-items-end" id="information">
         <h2>{{ recipe.name }} <button class="btn btn-outline-success btn-sm" v-if="recipe.favorited == false"
             v-on:click="favoriteRecipe()">&#9734;</button>
@@ -83,28 +83,30 @@ export default {
               cooked!</button>
           </div>
           <div class="col-auto me-auto">
-            <button class="btn btn-secondary btn-sm" v-on:click="shareRecipe()">Share it?</button>
+            <button class="btn btn-secondary btn-sm" v-on:click="shareRecipe()">Share it!</button>
           </div>
         </div>
-
       </section>
-      <section class="row m-3" id="ingredients">
+      <section class="row m-3 p-3 border-top" id="ingredients">
         <h3>Ingredients</h3>
         <ul>
           <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>
         </ul>
       </section>
-      <section class="row m-3" id="directions">
+      <section class="row mx-3 p-3 border-top" id="directions">
         <h3>Directions</h3>
         <ol>
           <li v-for="step in recipe.steps">{{ step.description }}</li>
         </ol>
       </section>
-
-
-      <router-link class="btn btn-secondary" to="/recipes">All Recipes</router-link>
-
-      <!-- <p><a href="https://www.wine-searcher.com/food-wine" target="_blank">Information on Wine Pairings</a></p> -->
+    </div>
+    <div class="row">
+      <div class="col-auto me-auto">
+        <router-link class="btn btn-secondary" to="/recipes">All Recipes</router-link>
+      </div>
+      <div class="col-auto ms-auto">
+        <button class="btn btn-primary my-1 mx-4">Something</button>
+      </div>
     </div>
   </div>
 </template>

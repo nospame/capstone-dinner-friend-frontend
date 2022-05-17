@@ -89,19 +89,16 @@ export default {
 </script>
 
 <template>
-  <div class="text-center" style="background-image: url('/img/banner.jpg'); background-size:cover">
+  <div class="text-center">
     <div class="px-4 py-5 " style="background-color:rgba(255,255,255,0.7)">
-      <h1 class="display-5">Recipes, no SEO</h1>
+      <h1 class="display-5 m-5">All the Recipes, none of the SEO</h1>
       <form v-on:submit.prevent="newSearch()">
         <div class="input-group w-50 m-auto">
           <div class="row m-auto">
-            <div class="col-auto ms-auto">
-              <input type="text" class="form-control form-control-lg my-3" placeholder="Try 'dinner' or 'banana'"
-                aria-label="Search" v-model="searchTerm">
-            </div>
-            <div class="col-auto me-auto">
-              <input class="btn btn-primary btn-lg my-3" type="submit" value="Search"><br />
-            </div>
+            <input type="text" class="form-control form-control-lg my-2" placeholder="Try 'dinner' or 'banana'"
+              aria-label="Search" v-model="searchTerm">
+            <input class="btn btn-primary btn-lg my-2" type="submit" value="Search"><br />
+
           </div>
         </div>
         <div class="row w-25 m-auto">
@@ -120,7 +117,7 @@ export default {
     </div>
   </div>
 
-  <div class="m-auto" style="max-width: 960px">
+  <div id="search-results" class="mx-auto my-5" style="max-width: 960px;">
     <div v-if="recipes.length > 0" class="container m-auto">
       <div class="mb-3 row align-items-end">
         <div class="col-2 mb-3">
