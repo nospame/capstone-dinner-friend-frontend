@@ -54,6 +54,9 @@ export default {
           setTimeout(() => { this.notify = '' }, 4000)
           this.recipe.has_made = true
         })
+    },
+    print: function () {
+      window.print()
     }
   }
 };
@@ -61,55 +64,74 @@ export default {
 
 <template>
   <div class="recipes-show m-auto" style="max-width: 720px">
-    <h1 class="display-3 text-center m-5">{{ message }}</h1>
-    <div class="container m-3 border rounded">
-      <section class="row mx-1 my-3 align-items-end" id="information">
-        <h2>{{ recipe.name }} <button class="btn btn-outline-success btn-sm" v-if="recipe.favorited == false"
+    <h1 class="display-3 text-center m-5 no-print">{{ message }}</h1>
+    <div class="container m-3 border rounded print-content">
+      <section class="row mx-1 my-3 print-content" id="information">
+        <div class="col-auto">
+          <h2>{{ recipe.name }}</h2>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-outline-success " v-if="recipe.favorited == false"
             v-on:click="favoriteRecipe()">&#9734;</button>
-          <button class="btn btn-outline-success btn-sm" v-else-if="!!recipe.favorited"
+          <button class="btn btn-outline-success " v-else-if="!!recipe.favorited"
             v-on:click="unfavoriteRecipe()">&#9733;</button>
-          <button class="btn btn-outline-success btn-sm disabled" v-else="!user.loggedIn">&#9734;</button>
-        </h2>
+          <button class="btn btn-outline-success  disabled" v-else="!user.loggedIn">&#9734;</button>
+        </div>
         <p><small>Serves {{ recipe.servings }}.</small></p>
         <p>{{ recipe.description }}</p>
         <p v-if="notify != ''" class="small text-center" role="alert">
           {{ notify }}<br />
         </p>
-        <div class="row">
-          <div class="col-auto ms-auto">
+        <div class="row no-print">
+          <div class="col-auto ms-auto no-print">
             <button class="btn btn-success btn-sm" v-if="!!recipe.favorited && !recipe.has_made"
               v-on:click="markCooked()">Cooked it?</button>
             <button class="btn btn-success btn-sm disabled" v-if="!!recipe.favorited && !!recipe.has_made">Recipe
               cooked!</button>
           </div>
-          <div class="col-auto me-auto">
-            <button class="btn btn-secondary btn-sm" v-on:click="shareRecipe()">Share it!</button>
+          <div class="col-auto me-auto no-print">
+            <div class="btn-group">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">Share it!</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" v-on:click="shareRecipe()" href="#">Copy URL</a></li>
+                <li><a class="dropdown-item" v-on:click="print()" href="#">Print Recipe</a></li>
+              </ul>
+            </div>
           </div>
+
+
         </div>
       </section>
-      <section class="row m-3 p-3 border-top" id="ingredients">
+      <section class="row mx-3 px-3 pt-3 pb-2 border-top print-content" id="ingredients">
         <h3>Ingredients</h3>
         <ul>
           <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>
         </ul>
       </section>
-      <section class="row mx-3 p-3 border-top" id="directions">
+      <section class="row mx-3 px-3 pt-3 pb-2 border-top print-content" id="directions">
         <h3>Directions</h3>
         <ol>
           <li v-for="step in recipe.steps">{{ step.description }}</li>
         </ol>
       </section>
     </div>
-    <div class="row">
-      <div class="col-auto me-auto">
-        <router-link class="btn btn-secondary" to="/recipes">All Recipes</router-link>
-      </div>
-      <div class="col-auto ms-auto">
-        <button class="btn btn-primary my-1 mx-4">Something</button>
-      </div>
+    <div class="m-3 no-print">
+      <router-link class="btn btn-secondary " to="/recipes">All Recipes</router-link>
     </div>
   </div>
 </template>
 
 <style>
+@media print {
+
+  .no-print {
+    display: none;
+  }
+
+  .print-content {
+    display: block;
+    max-width: 680px;
+  }
+}
 </style>

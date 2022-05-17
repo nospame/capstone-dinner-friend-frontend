@@ -15,15 +15,16 @@ export default {
 }
 </script>
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid w-75">
-      <a class="navbar-brand" href="/">Dinner Party's Friend</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
+    <div class="container-fluid w-75 no-print">
+      <a class="navbar-brand no-print" href="/">Dinner Party's Friend</a>
+      <button class="navbar-toggler no-print" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse no-print" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <router-link class="nav-link" to="/recipes">Search</router-link>
@@ -61,10 +62,9 @@ export default {
       </div>
     </div>
   </nav>
-  {{ user.LoggedIn }}
-  <!-- <div class="container-sm my-4"> -->
+
   <router-view />
-  <!-- </div> -->
+
 </template>
 
 
