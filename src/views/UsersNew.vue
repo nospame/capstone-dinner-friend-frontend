@@ -13,7 +13,6 @@ export default {
       axios
         .post("/users", this.newUserParams)
         .then((response) => {
-          console.log(response.data);
           this.$router.push("/login");
         })
         .catch((error) => {
@@ -26,8 +25,8 @@ export default {
 
 <template>
   <div class="signup m-auto" style="max-width: 720px">
+    <h1 class="display-3 text-center m-5">Sign Up</h1>
     <form v-on:submit.prevent="submit()">
-      <h1>Sign Up</h1>
       <ul>
         <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
       </ul>

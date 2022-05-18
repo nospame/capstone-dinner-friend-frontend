@@ -42,8 +42,8 @@ export default {
             <router-link class="nav-link disabled" to="#">Saved Searches</router-link>
           </li>
           <li class="nav-item dropdown" v-if="!user.loggedIn">
-            <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="btn btn-primary rounded-pill" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Sign Up
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -56,17 +56,19 @@ export default {
             </ul>
           </li>
           <li class="nav-item" v-else="user.loggedIn">
-            <router-link class="btn btn-secondary" to="/logout">Logout</router-link>
+            <router-link class="btn btn-secondary rounded-pill" to="/logout">Logout</router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
   <router-view />
 
 </template>
 
 
 <style>
+body {
+  background-color: #fafafa
+}
 </style>

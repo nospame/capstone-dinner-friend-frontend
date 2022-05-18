@@ -33,8 +33,8 @@ export default {
 
 <template>
   <div class="login m-auto" style="max-width: 720px">
+    <h1 class="display-3 text-center m-5">Login</h1>
     <form v-on:submit.prevent="submit()">
-      <h1>Login</h1>
       <ul>
         <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
       </ul>

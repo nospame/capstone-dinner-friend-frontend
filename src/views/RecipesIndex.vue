@@ -1,6 +1,7 @@
 <script>
 import axios from "axios"
 import Multiselect from '@vueform/multiselect'
+import { user } from '../user.js'
 
 export default {
   components: { Multiselect },
@@ -23,7 +24,8 @@ export default {
       offset: 0,
       searchTags: [],
       options: [{ id: 0, name: 'tag' }],
-      sort: 'ASC'
+      sort: 'ASC',
+      user
     };
   },
 
@@ -63,19 +65,18 @@ export default {
     nextPage: function () {
       this.offset += 20
       this.getRecipes()
-      window.scrollTo(0, 0)
+      document.getElementById("search-results").scrollIntoView()
     },
     prevPage: function () {
       this.offset -= 20
       this.getRecipes()
-      window.scrollTo(0, 0)
+      document.getElementById("search-results").scrollIntoView()
     },
     favoriteSearch: function () {
       let currentSearch = { q: this.searchTerm }
       if (this.searchTags != '') {
         currentSearch.tags = this.searchTags
       }
-      console.log(currentSearch)
       axios.post("/favorite_searches.json", currentSearch)
         .then(() => {
           this.notify = "Search saved!"
@@ -95,7 +96,7 @@ export default {
 
 <template>
   <div class="text-center">
-    <div class="px-4 pt-5" style="background-color:rgba(255,255,255,0.7)">
+    <div class="px-4 pt-5">
       <h1 class="display-5 m-5">All the Recipes, none of the SEO</h1>
       <form v-on:submit.prevent="newSearch()">
         <div class="input-group w-50 m-auto">
@@ -103,7 +104,6 @@ export default {
             <input type="text" class="form-control form-control-lg my-2" placeholder="Try 'dinner' or 'banana'"
               aria-label="Search" v-model="searchTerm">
             <input class="btn btn-primary btn-lg my-2" type="submit" value="Search"><br />
-
           </div>
         </div>
         <div class="row w-25 mx-auto my-2">
@@ -132,7 +132,9 @@ export default {
           </select>
         </div>
         <div class="col-auto ms-auto mb-3">
-          <button class="btn btn-primary mx-1" v-on:click="favoriteSearch()">Save this Search</button>
+          <button v-if="user.loggedIn" class="btn btn-primary mx-1" v-on:click="favoriteSearch()">Save this
+            Search</button>
+          <button v-else="!user.loggedIn" class="btn btn-primary mx-1 disabled">Save this Search</button>
         </div>
       </div>
 
@@ -143,7 +145,7 @@ export default {
             <h2>{{ recipe.name }}</h2>
           </div>
         </div>
-        <p>{{ recipe.description }}</p>
+        <p>{{ recipe.description.slice(0, 200) }}<span v-if="recipe.description.length > 200">...</span></p>
         <button class="btn btn-primary" v-on:click="showRecipe(recipe.id)">Recipe Details</button>
         <hr />
       </div>

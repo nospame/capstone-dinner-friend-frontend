@@ -21,7 +21,6 @@ export default {
     destroyFavoriteSearch: function (favorite) {
       axios.delete(`/favorite_searches/${favorite.id}.json`)
         .then(() => {
-          console.log("deleted!")
           this.favorites.splice(this.favorites.indexOf(favorite), 1)
         })
     }

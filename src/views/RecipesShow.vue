@@ -13,14 +13,12 @@ export default {
   },
   created: function () {
     this.showRecipe()
-    console.log(this.recipe)
   },
   methods: {
     showRecipe: function () {
       axios.get(`/recipes/${this.$route.params.id}.json`)
         .then(response => {
           this.recipe = response.data
-          console.log(response.data)
         })
     },
     shareRecipe: function () {
@@ -65,17 +63,18 @@ export default {
 <template>
   <div class="recipes-show m-auto" style="max-width: 720px">
     <h1 class="display-3 text-center m-5 no-print">{{ message }}</h1>
-    <div class="container m-3 border rounded print-content">
+    <div class="container m-3 border rounded print-content" style="background-color: #fff">
+
       <section class="row mx-1 my-3 print-content" id="information">
         <div class="col-10">
           <h2>{{ recipe.name }}</h2>
         </div>
         <div class="col-auto ms-auto">
-          <button class="btn btn-outline-success " v-if="recipe.favorited == false"
+          <button class="btn btn-outline-success rounded-circle py-2" v-if="recipe.favorited == false"
             v-on:click="favoriteRecipe()">&#9734;</button>
-          <button class="btn btn-outline-success " v-else-if="!!recipe.favorited"
+          <button class="btn btn-outline-success rounded-circle py-2" v-else-if="!!recipe.favorited"
             v-on:click="unfavoriteRecipe()">&#9733;</button>
-          <button class="btn btn-outline-success  disabled" v-else="!user.loggedIn">&#9734;</button>
+          <button class="btn btn-success rounded-circle disabled py-2" v-else="!user.loggedIn">&#9733;</button>
         </div>
         <p><small>Serves {{ recipe.servings }}.</small></p>
         <p>{{ recipe.description }}</p>
@@ -99,22 +98,23 @@ export default {
               </ul>
             </div>
           </div>
-
-
         </div>
       </section>
+
       <section class="row mx-3 px-3 pt-3 pb-2 border-top print-content" id="ingredients">
         <h3>Ingredients</h3>
         <ul>
           <li v-for="ingredient in recipe.ingredients_list">{{ ingredient }}</li>
         </ul>
       </section>
+
       <section class="row mx-3 px-3 pt-3 pb-2 border-top print-content" id="directions">
         <h3>Directions</h3>
         <ol>
           <li v-for="step in recipe.steps">{{ step.description }}</li>
         </ol>
       </section>
+
     </div>
     <div class="m-3 no-print">
       <router-link class="btn btn-secondary " to="/recipes">All Recipes</router-link>

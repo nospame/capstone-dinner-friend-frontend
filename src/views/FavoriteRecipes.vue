@@ -20,7 +20,6 @@ export default {
     getFavoriteRecipes: function () {
       axios.get("/favorite_recipes.json")
         .then(response => {
-          console.log(response.data)
           this.favorites = response.data
           this.selectFavorites = this.favorites
         })
@@ -77,7 +76,6 @@ export default {
     unfavoriteRecipe: function (favorite) {
       axios.delete(`/favorite_recipes/${favorite.recipe.id}`)
         .then(() => {
-          console.log("deleted!")
           this.favorites.splice(this.favorites.indexOf(favorite), 1)
           this.selectFavorites.splice(this.selectFavorites.indexOf(favorite), 1)
         })
