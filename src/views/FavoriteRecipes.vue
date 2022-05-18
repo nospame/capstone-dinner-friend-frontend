@@ -118,7 +118,8 @@ export default {
             <button type="button" class="btn-close" v-on:click="unfavoriteRecipe(favorite)"></button>
           </div>
         </div>
-        <p>{{ favorite.recipe.description }}</p>
+        <p>{{ favorite.recipe.description.slice(0, 200) }}<span
+            v-if="favorite.recipe.description.length > 200">...</span></p>
         <button class="btn btn-primary position-relative" v-on:click="showRecipe(favorite)">Recipe Details
           <span
             class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
