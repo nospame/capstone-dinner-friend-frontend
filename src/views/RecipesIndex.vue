@@ -16,7 +16,6 @@ export default {
 
   data: function () {
     return {
-      message: "Dinner Party's Friend",
       notify: '',
       tags: [],
       recipes: [],
@@ -43,6 +42,12 @@ export default {
     },
     newSearch: function () {
       this.offset = 0
+      this.searchTags = []
+      this.getRecipes()
+      history.pushState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
+    },
+    updateSearch: function () {
+      this.offset = 0
       this.getRecipes()
       history.pushState(null, "", `/recipes?q=${this.searchTerm}&tags=${this.searchTags}`,)
     },
@@ -58,9 +63,6 @@ export default {
           this.notify = response.data.length > 0 ? '' : "No results found. Try using a different search term or fewer tags."
           this.getTags()
         })
-    },
-    showRecipe: function (id) {
-      this.$router.push(`/recipes/${id}`)
     },
     nextPage: function () {
       this.offset += 20
@@ -108,7 +110,7 @@ export default {
         </div>
         <div class="row w-25 mx-auto my-2">
           <Multiselect v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags" :options="tags"
-            valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
+            valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="updateSearch()">
           </Multiselect>
         </div>
       </form>
@@ -126,7 +128,7 @@ export default {
       <div class="mb-3 row align-items-end">
         <div class="col-2 mb-3">
           <label for="sort" class="form-label">Sort:</label>
-          <select id="sort" class="form-select form-select-sm" v-model="sort" v-on:change="newSearch()">
+          <select id="sort" class="form-select form-select-sm" v-model="sort" v-on:change="updateSearch()">
             <option value="ASC">A - Z</option>
             <option value="DESC">Z - A</option>
           </select>
@@ -146,7 +148,7 @@ export default {
           </div>
         </div>
         <p>{{ recipe.description.slice(0, 200) }}<span v-if="recipe.description.length > 200">...</span></p>
-        <button class="btn btn-primary" v-on:click="showRecipe(recipe.id)">Recipe Details</button>
+        <router-link class="btn btn-primary" v-bind:to="`/recipes/${recipe.id}`">Recipe Details</router-link>
         <hr />
       </div>
 

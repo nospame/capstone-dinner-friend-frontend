@@ -5,7 +5,6 @@ import { user } from '../user.js'
 export default {
   data: function () {
     return {
-      message: "Recipe Details",
       recipe: {},
       notify: '',
       user
@@ -62,7 +61,7 @@ export default {
 
 <template>
   <div class="recipes-show m-auto" style="max-width: 720px">
-    <h1 class="display-3 text-center m-5 no-print">{{ message }}</h1>
+    <h1 class="display-3 text-center m-5 no-print">Recipe Details</h1>
     <div class="container m-3 border rounded print-content" style="background-color: #fff">
 
       <section class="row mx-1 my-3 print-content" id="information">
@@ -74,7 +73,7 @@ export default {
             v-on:click="favoriteRecipe()">&#9734;</button>
           <button class="btn btn-outline-success rounded-circle py-2" v-else-if="!!recipe.favorited"
             v-on:click="unfavoriteRecipe()">&#9733;</button>
-          <button class="btn btn-success rounded-circle disabled py-2" v-else="!user.loggedIn">&#9733;</button>
+          <button class="btn btn-outline-success rounded-circle disabled py-2" v-else="!user.loggedIn">&#9734;</button>
         </div>
         <p><small>Serves {{ recipe.servings }}.</small></p>
         <p>{{ recipe.description }}</p>

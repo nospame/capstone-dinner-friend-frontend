@@ -5,7 +5,6 @@ import { user } from '../user.js'
 export default {
   data: function () {
     return {
-      message: "Welcome to the Favorites Page",
       favorites: [],
       sort: 'new',
       filter: 'all',
@@ -130,7 +129,8 @@ export default {
       </div>
     </div>
     <div v-else="favorites.length === 0">
-      <p>Nothing to see here! Try adding some favorites from the search page.</p>
+      <p class="text-center">Nothing to see here! Try finding some recipes to favorite from the <router-link
+          to="/recipes">search page</router-link>.</p>
     </div>
   </div>
 </template>

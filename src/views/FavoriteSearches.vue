@@ -4,7 +4,6 @@ import axios from 'axios';
 export default {
   data: function () {
     return {
-      message: "Saved Searches",
       favorites: []
     };
   },
@@ -31,7 +30,7 @@ export default {
 <template>
   <div class="favorite-searches m-auto" style="max-width: 960px">
     <h1 class="display-3 text-center m-5">Saved Searches</h1>
-    <div class="container m-auto">
+    <div v-if="favorites.length > 0" class="container m-auto">
       <h2>Find me a dish that's...</h2>
       <div class="mb-3 row">
         <div v-for="favorite in favorites" class="col-4 my-3">
@@ -55,8 +54,11 @@ export default {
             </div>
           </div>
         </div>
-
       </div>
+    </div>
+    <div v-else="favorites.length === 0">
+      <p class="text-center">Nothing to see here! Try finding some searches to favorite from
+        the <router-link to="/recipes">search page</router-link>.</p>
     </div>
   </div>
 </template>

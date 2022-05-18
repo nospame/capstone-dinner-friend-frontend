@@ -17,8 +17,7 @@ export default {
         .then((response) => {
           axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
-          // user.name = response.data.user_name;
-          this.$router.go(-1);
+          this.$router.push("/");
         })
         .catch((error) => {
           console.log(error.response);
@@ -48,5 +47,8 @@ export default {
       </div>
       <input type="submit" value="Submit" class="btn btn-primary mb-3" />
     </form>
+    <p class="text-center">Demo account <br />
+      email: clifford@example.com<br />
+      password: cat2345</p>
   </div>
 </template>
