@@ -21,7 +21,7 @@ export default {
       recipes: [],
       searchTerm: '',
       offset: 0,
-      searchTags: null,
+      searchTags: [],
       options: [{ id: 0, name: 'tag' }],
       sort: 'ASC'
     };
@@ -47,7 +47,7 @@ export default {
     getRecipes: function () {
       this.notify = "Searching..."
       let url = `/recipes.json?q=${this.searchTerm}&offset=${this.offset}&sort=${this.sort}`
-      if (!!this.searchTags) {
+      if (this.searchTags != '') {
         url = `${url}&tags=${this.searchTags}`
       }
       axios.get(url)
@@ -71,7 +71,12 @@ export default {
       window.scrollTo(0, 0)
     },
     favoriteSearch: function () {
-      axios.post("/favorite_searches.json", { q: this.searchTerm, tags: this.searchTags })
+      let currentSearch = { q: this.searchTerm }
+      if (this.searchTags != '') {
+        currentSearch.tags = this.searchTags
+      }
+      console.log(currentSearch)
+      axios.post("/favorite_searches.json", currentSearch)
         .then(() => {
           this.notify = "Search saved!"
           setTimeout(() => {
@@ -90,7 +95,7 @@ export default {
 
 <template>
   <div class="text-center">
-    <div class="px-4 py-5 " style="background-color:rgba(255,255,255,0.7)">
+    <div class="px-4 pt-5" style="background-color:rgba(255,255,255,0.7)">
       <h1 class="display-5 m-5">All the Recipes, none of the SEO</h1>
       <form v-on:submit.prevent="newSearch()">
         <div class="input-group w-50 m-auto">
@@ -101,18 +106,17 @@ export default {
 
           </div>
         </div>
-        <div class="row w-25 m-auto">
+        <div class="row w-25 mx-auto my-2">
           <Multiselect v-model="searchTags" v-if="recipes.length > 0" placeholder="Refine by Tags" :options="tags"
             valueProp="name" label="name" mode="tags" :searchable="true" v-on:select="newSearch()">
           </Multiselect>
         </div>
       </form>
-
       <div class="small text-center mb-3">
-        <p role="alert">{{ notify }}</p>
         <button v-if="recipes.length > 0 || notify != ''" class="btn btn-secondary btn-sm m-1"
           v-on:click="clearSearch()">Clear
           Search</button>
+        <p role="alert">{{ notify }}</p>
       </div>
     </div>
   </div>

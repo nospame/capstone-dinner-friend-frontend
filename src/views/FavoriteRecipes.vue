@@ -79,6 +79,7 @@ export default {
         .then(() => {
           console.log("deleted!")
           this.favorites.splice(this.favorites.indexOf(favorite), 1)
+          this.selectFavorites.splice(this.selectFavorites.indexOf(favorite), 1)
         })
     }
   },
@@ -86,7 +87,7 @@ export default {
 </script>
 
 <template>
-  <div class="favorites m-auto" style="max-width: 960px">
+  <div class="favorite-recipes m-auto" style="max-width: 960px">
     <h1 class="display-3 text-center m-5">Favorites</h1>
     <div v-if="favorites.length > 0" class="container m-auto">
       <div class="mb-3 row">

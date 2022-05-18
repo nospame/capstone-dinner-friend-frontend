@@ -67,10 +67,10 @@ export default {
     <h1 class="display-3 text-center m-5 no-print">{{ message }}</h1>
     <div class="container m-3 border rounded print-content">
       <section class="row mx-1 my-3 print-content" id="information">
-        <div class="col-auto">
+        <div class="col-10">
           <h2>{{ recipe.name }}</h2>
         </div>
-        <div class="col-auto">
+        <div class="col-auto ms-auto">
           <button class="btn btn-outline-success " v-if="recipe.favorited == false"
             v-on:click="favoriteRecipe()">&#9734;</button>
           <button class="btn btn-outline-success " v-else-if="!!recipe.favorited"
