@@ -5,11 +5,11 @@ import { user } from '../user.js'
 export default {
   data: function () {
     return {
+      user,
       favorites: [],
-      sort: 'new',
       filter: 'all',
       selectFavorites: this.favorites,
-      user
+      sort: 'new'
     };
   },
   created: function () {
@@ -23,13 +23,28 @@ export default {
           this.selectFavorites = this.favorites
         })
     },
-    showRecipe: function (favorite) {
-      this.$router.push(`/recipes/${favorite.recipe.id}`)
+    unfavoriteRecipe: function (favorite) {
+      axios.delete(`/favorite_recipes/${favorite.recipe.id}`)
+        .then(() => {
+          this.favorites.splice(this.favorites.indexOf(favorite), 1)
+          this.selectFavorites.splice(this.selectFavorites.indexOf(favorite), 1)
+        })
+    },
+    filterFavoriteRecipes: function (filter) {
+      if (filter === 'true') {
+        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === true)
+      }
+      else if (filter === 'false') {
+        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === false)
+      }
     },
     selectFavoriteRecipes: function (sort, filter) {
       this.sortFavoriteRecipes(sort);
       this.filterFavoriteRecipes(filter);
     },
+      showRecipe: function (favorite) {
+        this.$router.push(`/recipes/${favorite.recipe.id}`)
+      },
     sortFavoriteRecipes: function (sort) {
       this.selectFavorites = this.favorites.sort((a, b) => {
         if (sort === 'old' || sort === 'new') {
@@ -64,21 +79,6 @@ export default {
         }
       })
     },
-    filterFavoriteRecipes: function (filter) {
-      if (filter === 'true') {
-        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === true)
-      }
-      else if (filter === 'false') {
-        this.selectFavorites = this.selectFavorites.filter(favorite => favorite.has_made === false)
-      }
-    },
-    unfavoriteRecipe: function (favorite) {
-      axios.delete(`/favorite_recipes/${favorite.recipe.id}`)
-        .then(() => {
-          this.favorites.splice(this.favorites.indexOf(favorite), 1)
-          this.selectFavorites.splice(this.selectFavorites.indexOf(favorite), 1)
-        })
-    }
   },
 };
 </script>

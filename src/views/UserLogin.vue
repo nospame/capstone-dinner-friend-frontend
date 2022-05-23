@@ -5,9 +5,9 @@ import { user } from '../user.js'
 export default {
   data: function () {
     return {
-      newSessionParams: {},
+      user,
       errors: [],
-      user
+      newSessionParams: {}
     };
   },
   methods: {

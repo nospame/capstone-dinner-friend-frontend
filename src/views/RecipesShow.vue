@@ -5,9 +5,9 @@ import { user } from '../user.js'
 export default {
   data: function () {
     return {
-      recipe: {},
+      user,
       notify: '',
-      user
+      recipe: {}
     };
   },
   created: function () {
@@ -20,20 +20,13 @@ export default {
           this.recipe = response.data
         })
     },
-    shareRecipe: function () {
-      const copyText = window.location.href
-      navigator.clipboard.writeText(copyText)
-      this.notify = 'URL copied to clipboard!'
-      setTimeout(() => { this.notify = '' }, 5000)
-    },
-    favoriteRecipe: function () {
-      axios.post('/favorite_recipes.json', { "recipe_id": this.recipe.id })
+    markCooked: function () {
+      axios.patch(`/favorite_recipes/${this.recipe.id}.json`, { "has_made": true })
         .then(() => {
-          this.notify = 'Recipe favorited!'
-          setTimeout(() => { this.notify = '' }, 5000)
-          this.recipe.favorited = true
-        }
-        )
+          this.notify = 'Recipe marked as cooked.'
+          setTimeout(() => { this.notify = '' }, 4000)
+          this.recipe.has_made = true
+        })
     },
     unfavoriteRecipe: function () {
       axios.delete(`/favorite_recipes/${this.recipe.id}.json`)
@@ -44,16 +37,23 @@ export default {
           this.recipe.has_made = false
         })
     },
-    markCooked: function () {
-      axios.patch(`/favorite_recipes/${this.recipe.id}.json`, { "has_made": true })
+    favoriteRecipe: function () {
+      axios.post('/favorite_recipes.json', { "recipe_id": this.recipe.id })
         .then(() => {
-          this.notify = 'Recipe marked as cooked.'
-          setTimeout(() => { this.notify = '' }, 4000)
-          this.recipe.has_made = true
-        })
+          this.notify = 'Recipe favorited!'
+          setTimeout(() => { this.notify = '' }, 5000)
+          this.recipe.favorited = true
+        }
+        )
     },
     print: function () {
       window.print()
+    },
+    shareRecipe: function () {
+      const copyText = window.location.href
+      navigator.clipboard.writeText(copyText)
+      this.notify = 'URL copied to clipboard!'
+      setTimeout(() => { this.notify = '' }, 5000)
     }
   }
 };

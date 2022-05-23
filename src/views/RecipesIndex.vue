@@ -16,15 +16,15 @@ export default {
 
   data: function () {
     return {
+      user,
       notify: '',
-      tags: [],
+      offset: 0,
+      options: [{ id: 0, name: 'tag' }],
       recipes: [],
       searchTerm: '',
-      offset: 0,
       searchTags: [],
-      options: [{ id: 0, name: 'tag' }],
       sort: 'ASC',
-      user
+      tags: []
     };
   },
 
@@ -102,7 +102,7 @@ export default {
       <form v-on:submit.prevent="newSearch()">
         <div class="input-group w-50 m-auto">
           <div class="row m-auto">
-            <input type="text" class="form-control form-control-lg my-2" placeholder="Try 'dinner' or 'banana'"
+            <input type="text" class="form-control form-control-lg my-2" placeholder="Try 'chicken' or 'banana'"
               aria-label="Search" v-model="searchTerm">
             <input class="btn btn-primary btn-lg my-2" type="submit" value="Search"><br />
           </div>

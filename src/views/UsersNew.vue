@@ -4,8 +4,8 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      newUserParams: {},
       errors: [],
+      newUserParams: {}
     };
   },
   methods: {

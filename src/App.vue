@@ -32,7 +32,7 @@ export default {
           <li class="nav-item" v-if="user.loggedIn">
             <router-link class="nav-link" to="/favorites/recipes">Favorite Recipes</router-link>
           </li>
-          <li class="nav-item" v-else="!user.loggedIn">
+          <!-- <li class="nav-item" v-else="!user.loggedIn">
             <router-link class="nav-link disabled" to="#">Favorite Recipes</router-link>
           </li>
           <li class="nav-item" v-if="user.loggedIn">
@@ -40,6 +40,9 @@ export default {
           </li>
           <li class="nav-item" v-else="!user.loggedIn">
             <router-link class="nav-link disabled" to="#">Saved Searches</router-link>
+          </li> -->
+          <li class="nav-item" v-if="!user.loggedIn">
+            <router-link class="nav-link disabled" to="#">Login for Favorites!</router-link>
           </li>
           <li class="nav-item dropdown" v-if="!user.loggedIn">
             <a class="btn btn-primary rounded-pill" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
